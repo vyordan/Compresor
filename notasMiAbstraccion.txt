@@ -1,0 +1,79 @@
+Entrada: std::vector<uint8_t> con los datos ya leídos
+Salida: std::vector<uint8_t> con los datos procesados
+Errores: Excepciones
+Header: Primer byte identifica el algoritmo
+Métodos: Solo dos, compress y decompress
+Eso es todo lo que necesita ICompressor. Simple, limpio, y suficiente para que CLI, GUI y gRPC lo consuman sin saber qué hay adentro.
+
+Estructura de carpetas
+compresor/
+│
+├── CMakeLists.txt
+├── README.md
+├── .gitignore
+├── Dockerfile
+│
+├── core/
+│   ├── CMakeLists.txt
+│   ├── include/
+│   │   ├── ICompressor.hpp
+│   │   ├── HuffmanCompressor.hpp
+│   │   ├── RLECompressor.hpp
+│   │   ├── LZ77Compressor.hpp
+│   │   ├── LZWCompressor.hpp
+│   │   └── structures/
+│   │       ├── HuffmanNode.hpp
+│   │       └── BitBuffer.hpp
+│   └── src/
+│       ├── HuffmanCompressor.cpp
+│       ├── RLECompressor.cpp
+│       ├── LZ77Compressor.cpp
+│       ├── LZWCompressor.cpp
+│       └── BitBuffer.cpp
+│
+├── cli/
+│   ├── CMakeLists.txt
+│   ├── include/
+│   └── src/
+│       └── main.cpp
+│
+├── gui/
+│   ├── CMakeLists.txt
+│   ├── include/
+│   └── src/
+│       └── main.cpp
+│
+└── grpc/
+    ├── CMakeLists.txt
+    ├── proto/
+    │   └── compressor.proto
+    ├── include/
+    └── src/
+        └── server.cpp
+
+Interfaz lógica de ICompressor
+Contrato:
+
+Recibe un std::vector<uint8_t> con los datos ya leídos por el caller
+Devuelve un std::vector<uint8_t> con los datos procesados
+Ante cualquier error lanza una excepción, el caller usa try catch
+El buffer comprimido siempre lleva un header con al menos un byte que identifica el algoritmo usado
+
+Métodos:
+compress — Recibe el buffer original, devuelve el buffer comprimido con header incluido
+decompress — Recibe el buffer comprimido, lee el header para identificar el algoritmo, devuelve los datos originales
+Identificadores de algoritmo en el header:
+1 → RLE
+2 → Huffman
+3 → LZ77
+4 → LZ78
+5 → LZW
+6 → Variante propia
+
+afuera del nucleo vamos a:
+Leer o escribir archivos
+Saber de dónde vienen los datos
+Decidir qué hacer con el buffer resultante
+
+///////////////////////////////
+ahorita antes de estoy investigando un poco sobre std::vector<uint8_t> y operaciones de bits en C++ (<<, >>, &, |, ^) 
