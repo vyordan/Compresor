@@ -52,7 +52,6 @@ compresor/
         └── server.cpp
 
 Interfaz lógica de ICompressor
-Contrato:
 
 Recibe un std::vector<uint8_t> con los datos ya leídos por el caller
 Devuelve un std::vector<uint8_t> con los datos procesados
