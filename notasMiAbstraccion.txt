@@ -3,7 +3,7 @@ Salida: std::vector<uint8_t> con los datos procesados
 Errores: Excepciones
 Header: Primer byte identifica el algoritmo
 Métodos: Solo dos, compress y decompress
-Eso es todo lo que necesita ICompressor. Simple, limpio, y suficiente para que CLI, GUI y gRPC lo consuman sin saber qué hay adentro.
+Eso es todo lo que necesita ICompressor (este es el nucleo, solo se encarga de procesar un bufer), suficiente para que CLI, GUI y gRPC lo consuman sin saber qué hay adentro.
 
 Estructura de carpetas
 compresor/
