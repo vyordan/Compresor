@@ -69,7 +69,7 @@ Identificadores de algoritmo en el header:
 5 → LZW
 6 → Variante propia
 
-afuera del nucleo vamos a:
+afuera del nucleo se va a:
 Leer o escribir archivos
 Saber de dónde vienen los datos
 Decidir qué hacer con el buffer resultante
