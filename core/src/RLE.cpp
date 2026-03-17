@@ -1,4 +1,4 @@
-#include "include/RLE.hpp"
+#include "RLE.hpp"
 
 std::vector<uint8_t> RLE::compress(const std::vector<uint8_t>& buffer) {
     std::vector<uint8_t> compressedBuffer;
