@@ -13,6 +13,7 @@ add_executable(Compresor
 target_link_libraries(Compresor PRIVATE core)
 
 #pasamos la direccionde los archivos de cabcera
-target_include_directories(core PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../include
+
+target_include_directories(Compresor PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/../core/include
 )

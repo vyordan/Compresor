@@ -2,8 +2,9 @@
 // pues es algo que todas las clases que sean un algoritmo tienen que tener
 #pragma once
 
-#include <vector>
-#include <cstdint>
+#include <vector> //para usar el contenedor dinamico
+#include <cstdint> //para usar uint8_t que ocupa un byte exacto
+#include <exception>
 
 class ICompressor{
     public:
