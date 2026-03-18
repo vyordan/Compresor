@@ -4,6 +4,7 @@
 #include "RLE.hpp"
 
 int main() {
+    /*
     std::cout<<"hoalMundo XD\n";
 
     std::vector<uint8_t> datos = {10, 10, 10, 10, 20, 20, 30, 30, 30, 30, 100, 100, 100};
@@ -30,6 +31,9 @@ int main() {
         //std::cout<<i<<std::endl;
     }
     std::cout<<std::endl;
+    */
+
+    
 
     return (0);
 }
