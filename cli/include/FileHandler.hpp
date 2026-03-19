@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 #include <string>
 #include <vector>
 #include <cstdint>
@@ -10,6 +10,7 @@ class FileHandler{
 
     public:
         ~FileHandler(){};
-        std::vector<uint8_t> readFile(const std::string& direccionArchivo);
-        bool writeFile (const std::vector<uint8_t>& buffer){return false;};
+        std::vector<uint8_t> readFile(std::string direccionArchivo);
+        bool writeFile (const std::string& nombre, const std::vector<uint8_t>& buffer);
 };
+

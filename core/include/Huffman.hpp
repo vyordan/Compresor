@@ -6,7 +6,7 @@
  
 class Huffman: public ICompressor{
     private:
-    
+        const uint8_t idAlgoritmo = 0x02;
     public:
         ~Huffman(){}
         
