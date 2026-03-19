@@ -4,35 +4,68 @@
 #include <cstdint>
 #include "RLE.hpp"
 #include "FileHandler.hpp" //no estoy poniend olas rutas por que en el cmakelists estoy declarando donde buscar archivos de cabecera
+//#include "Huffman.hpp"
+
+void menu();
+void comprimir();
+void descomprimir();
 
 int main() {
-    
-    std::string ruta[4];
-    ruta[0] = "/home/yordan/Documentos/C++/compresor/Compresor/cli/src/imagenesPruebas/pruebaImagen.bmp";
-    ruta[1] = "/home/yordan/Documentos/C++/compresor/Compresor/cli/src/imagenesPruebas/prueba.bin";
-    ruta[2] = "/home/yordan/Documentos/C++/compresor/Compresor/cli/src/imagenesPruebas/prueba.bmp";
-    ruta[3] = "/home/yordan/Documentos/C++/compresor/Compresor/cli/src/imagenesPruebas/prueba.jpg";
-
-
-    FileHandler operarArchivo;
-    RLE algoritmo;
-
-    for (int i = 0; i < 4; i++){
-        std::vector<uint8_t> bufferArchivo = operarArchivo.readFile(ruta[i]);
-        std::vector<uint8_t> bufferArchivoComprimido = algoritmo.compress(bufferArchivo);
-        std::vector<uint8_t> bufferArchivoDescomprimido = algoritmo.decompress(bufferArchivoComprimido);
-    
-        std::cout<<"\nEl tamanio del archivo puro es: \t"<<bufferArchivo.size()<<std::endl;
-        std::cout<<"El tamanio del archivo compr es: \t"<<bufferArchivoComprimido.size()<<std::endl;
-        std::cout<<"El tamanio del archivo descomp es: \t"<<bufferArchivoDescomprimido.size()<<std::endl<<std::endl;
-        if (i == 2) {
-            if (operarArchivo.writeFile("holaXD", bufferArchivoComprimido)){
-                std::cout<<"se creo el archivo\n";
-            }
-        }
-    }
-
-
-
+    menu();
     return (0);
+}
+
+void menu(){
+    int opc;
+    do{     
+        std::cout<<"\npresione 1 + (Enter) para COMPRIMIR\npresione 2 + (Enter) para DESCOMPRIMIR\npresione 3 + (Eneter) para SALIR\n";
+        std::cin>>opc;
+        switch (opc){
+            case 1: comprimir();
+            break;
+            case 2: descomprimir();
+            break;
+            case 3: return;
+            break;
+            default: std::cout<<"valor invalido\n";
+        }
+    } while (opc != 3);
+}
+
+void comprimir(){
+    std::string rutaArchivo;
+    FileHandler operarArchivo;
+    RLE algoritmoRLE;
+    //Huffman algoritmoHuff;
+
+    std::cout<<"ingrese la ruta del archivo a comprimir: ";
+    std::cin>>rutaArchivo;
+    
+    std::vector<uint8_t> buffer = operarArchivo.readFile(rutaArchivo);
+    std::vector<uint8_t> bufferCompr = algoritmoRLE.compress(buffer);
+    
+    if (operarArchivo.writeFile("archivoComprimido", bufferCompr)){
+        std::cout<<"Archivo comprimido, la ruta donde se creo es la misma donde esta este ejecutable\n";
+    } else {
+        std::cout<<"No se pudo escribir el archivo comprimido\n";
+    }
+}
+
+void descomprimir(){
+    std::string rutaArchivo;
+    FileHandler operarArchivo;
+    RLE algoritmoRLE;
+    //Huffman algoritmoHuff;
+
+    std::cout<<"ingrese la ruta del archivo a descomprimir: ";
+    std::cin>>rutaArchivo;
+    
+    std::vector<uint8_t> buffer = operarArchivo.readFile(rutaArchivo);
+    std::vector<uint8_t> bufferDescomp = algoritmoRLE.decompress(buffer);
+    
+    if (operarArchivo.writeFile("archivoDescomprimido", bufferDescomp)){
+        std::cout<<"Archivo descomprimido, la ruta donde se creo es la misma donde esta este ejecutable\n";
+    } else {
+        std::cout<<"No se pudo escribir el archivo descomprimido\n";
+    }
 }

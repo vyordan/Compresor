@@ -19,17 +19,10 @@ std::vector<uint8_t> FileHandler::readFile(std::string direccionArchivo){
 
     buffer.resize(tamanio); //al buffer le ponemos que ahora va tener el tamanio del archivo
 
-    try{
     //aqui leemos el archivo y se lo ponemos al buffer
     //archivo.read(reinterpret_cast<char*>(buffer.data()), tamanio);
     if (archivo.read(reinterpret_cast<char*>(buffer.data()), tamanio)){
         //std::cout<<"\nse leyeron "<<tamanio<<" bytes\n";
-    }
-    } catch (const std::runtime_error& e) {
-        std::cerr << "exception: " << e.what() << std::endl; 
-    }
-    catch (...) { // Generic catch block for any other exceptions
-        std::cerr << "saber que error fue, pero esta al asignar los bytes al buffer" << std::endl;
     }
 
     archivo.close();
@@ -44,14 +37,7 @@ bool FileHandler::writeFile(const std::string& nombre, const std::vector<uint8_t
         return false;
     }
 
-    try{
-        archivo.write(reinterpret_cast<const char*>(buffer.data()), buffer.size());
-    } catch (const std::runtime_error& e) {
-        std::cerr << "exception: " << e.what() << std::endl; 
-    }
-    catch (...) { // Generic catch block for any other exceptions
-        std::cerr << "saber que error fue, pero esta al asignar los bytes al buffer" << std::endl;
-    }
+    archivo.write(reinterpret_cast<const char*>(buffer.data()), buffer.size());
 
     archivo.close();
     return true;
