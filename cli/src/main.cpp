@@ -3,21 +3,23 @@
 #include <vector>
 #include <cstdint>
 #include "RLE.hpp"
-#include "FileHandler.hpp" //no estoy poniend olas rutas por que en el cmakelists estoy declarando donde buscar archivos de cabecera
-//#include "Huffman.hpp"
+#include "FileHandler.hpp"
+#include "Huffman.hpp"
 
 void menu();
 void comprimir();
 void descomprimir();
 
 int main() {
-    menu();
+
+    //menu();
     return (0);
 }
 
 void menu(){
     int opc;
     do{     
+        try {
         std::cout<<"\npresione 1 + (Enter) para COMPRIMIR\npresione 2 + (Enter) para DESCOMPRIMIR\npresione 3 + (Eneter) para SALIR\n";
         std::cin>>opc;
         switch (opc){
@@ -29,6 +31,9 @@ void menu(){
             break;
             default: std::cout<<"valor invalido\n";
         }
+    } catch (...){
+        opc = 4;
+    }
     } while (opc != 3);
 }
 

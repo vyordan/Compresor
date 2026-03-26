@@ -1,22 +1,37 @@
 #pragma once
 
+#include <iostream>
+#include <map>
 #include "ICompressor.hpp"
-//#include <vector>
-//#include <cstdint> ya los agregue en la interfaz xd
+
+struct Nodo{
+    int nRepeticiones;
+    uint8_t byte;
+    Nodo* anterior;
+    Nodo* siguiente;
+    Nodo* siguienteIzquierdo;
+    Nodo* siguienteDerecho;
+    
+    //constructor del nodo
+    Nodo(uint8_t token, int contador):  byte(token), nRepeticiones(contador), 
+                                        anterior(nullptr), siguiente(nullptr), siguienteIzquierdo(nullptr), siguienteDerecho(nullptr) {} 
+};
  
 class Huffman: public ICompressor{
     private:
         const uint8_t idAlgoritmo = 0x02;
+        Nodo* inicioL;
+        Nodo* raiz;
     public:
-        ~Huffman(){}
-        
-        std::vector<uint8_t> compress (const std::vector<uint8_t>& buffer) override {
-            //implemento el codigo 
+        ~Huffman(){inicioL = nullptr;}
+
+        std::vector<uint8_t> compress (const std::vector<uint8_t>& buffer) override;
+
+        std::vector<uint8_t> decompress (const std::vector<uint8_t>& buffer) override {
             return {}; //solo temporal
         }
 
-        std::vector<uint8_t> decompress (const std::vector<uint8_t>& buffer) override {
-            //implemento el codigo
-            return {}; //solo temporal
-        }
+        void insertarNodoListaOrdenado(int nRepeticiones, uint8_t token);
+
+        void mostrar();
 };

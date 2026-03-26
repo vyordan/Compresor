@@ -7,6 +7,7 @@ project(core)
 # libreria estatica y los archivos
 add_library(core STATIC
     src/RLE.cpp
+    src/Huffman.cpp
     #Huffman.cpp
 )
 
