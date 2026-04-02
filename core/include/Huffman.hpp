@@ -1,7 +1,7 @@
 #pragma once
 
-#include <iostream>
-#include <map>
+//#include <iostream>
+//#include <map>
 #include "ICompressor.hpp"
 
 struct Nodo{
@@ -21,17 +21,19 @@ class Huffman: public ICompressor{
     private:
         const uint8_t idAlgoritmo = 0x02;
         Nodo* inicioL;
-        Nodo* raiz;
+        Nodo* finalL;
     public:
-        ~Huffman(){inicioL = nullptr;}
+        Huffman(){inicioL = nullptr;}
+        ~Huffman(){}
 
         std::vector<uint8_t> compress (const std::vector<uint8_t>& buffer) override;
-
         std::vector<uint8_t> decompress (const std::vector<uint8_t>& buffer) override {
             return {}; //solo temporal
         }
 
         void insertarNodoListaOrdenado(int nRepeticiones, uint8_t token);
-
-        void mostrar();
+        void insertarNodoListaOrdenado(Nodo*& nuevoNodo);
+        void convertirListaAArbol(int& tamanioLista);\
+        void obtenerUltimoPuntero();
+        //void mostrar(); //mostrar la lista
 };
