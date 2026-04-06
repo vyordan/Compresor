@@ -6,9 +6,11 @@
 
 struct Nodo{
     int nRepeticiones;
-    uint8_t byte;
+    uint8_t byte; //seria el token
+    //nodos de lista
     Nodo* anterior;
     Nodo* siguiente;
+    //nodo de arbol binario
     Nodo* siguienteIzquierdo;
     Nodo* siguienteDerecho;
     
@@ -23,7 +25,8 @@ class Huffman: public ICompressor{
         Nodo* inicioL;
         Nodo* finalL;
     public:
-        Huffman(){inicioL = nullptr;}
+        Huffman(){inicioL = nullptr;
+                  finalL = nullptr;}
         ~Huffman(){}
 
         std::vector<uint8_t> compress (const std::vector<uint8_t>& buffer) override;
@@ -36,4 +39,5 @@ class Huffman: public ICompressor{
         void convertirListaAArbol(int& tamanioLista);\
         void obtenerUltimoPuntero();
         //void mostrar(); //mostrar la lista
+        //void recorridoPreordenArbol(Nodo* nodo);
 };

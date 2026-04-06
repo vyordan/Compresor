@@ -17,7 +17,15 @@ std::vector<uint8_t> Huffman::compress (const std::vector<uint8_t>& buffer){
             contadorTamanioLista++;
         }
     }
-
+    
+    //mostrar();
+    //pasar la lista al arbol
+    if (contadorTamanioLista > 1)
+    {
+        convertirListaAArbol(contadorTamanioLista);
+        //recorridoPreordenArbol(inicioL);
+        //std::cout<<std::endl;
+    }
     
 
     return {};
@@ -82,23 +90,45 @@ void Huffman::insertarNodoListaOrdenado(Nodo*& nuevoNodo){
 }
 void Huffman::convertirListaAArbol(int& tamanioLista){
     obtenerUltimoPuntero();
-    while (tamanioLista > 1){
+    while (tamanioLista > 2){
+        //creamos un nuevo nodo con la suma de los ultimos dos nodos de la lista
         Nodo* nuevo = new Nodo(0x00,(finalL->anterior->nRepeticiones + finalL->nRepeticiones));
+        //el nuevo nodo va apuntar a sus dos hijos
+        nuevo->siguienteDerecho = finalL;
+        nuevo->siguienteIzquierdo = finalL->anterior;
+
+        /* esto se vale, pero en no realidad solo necesito que finalL apunte al nodo que esta atras del penultimo, y este siguiente = nullptr ()
+        //desconectamos estos dos nodos de la listas
+        finalL = finalL->anterior;
+        finalL->siguiente->anterior = nullptr;
+        finalL->siguiente = nullptr;
+
+        finalL = finalL->anterior;
+        finalL->siguiente->anterior = nullptr;
+        finalL->siguiente = nullptr;
+        */
+        //desconecto los ultimos dos nodos de la lista 
+        finalL = finalL->anterior->anterior;
+        finalL->siguiente = nullptr;
         
-        desconectamos estos dos nodos de la listas
-        finalL = finalL->anterior;
-        finalL->siguiente->anterior = nullptr;
-        finalL->siguiente = nullptr;
-
-        finalL = finalL->anterior;
-        finalL->siguiente->anterior = nullptr;
-        finalL->siguiente = nullptr;
-
         insertarNodoListaOrdenado(nuevo);
         tamanioLista--;
     }
+    Nodo* nuevo = new Nodo(0x00,(finalL->anterior->nRepeticiones + finalL->nRepeticiones));
+    nuevo->siguienteDerecho = finalL;
+    nuevo->siguienteIzquierdo = finalL->anterior;
+    inicioL = nuevo;
+    finalL = nullptr;
+
 }
-/* este codigo si sirve, pero lo hice nada mas para testiar la lista y ver que metiera bien los datos, por eso lo mente por que ya no le veo utilidad 
+void Huffman::obtenerUltimoPuntero(){
+    Nodo* aux = inicioL;
+    while (aux->siguiente != nullptr){
+        aux = aux->siguiente;
+    }
+    finalL = aux;
+} 
+/*//este codigo si sirve, pero lo hice nada mas para testiar la lista y ver que metiera bien los datos, por eso lo mente por que ya no le veo utilidad 
 void Huffman::mostrar() {
     Nodo* temp = inicioL;
     while (temp != nullptr) {
@@ -107,11 +137,14 @@ void Huffman::mostrar() {
     }
     std::cout << "NULL" << std::endl;
 }
-*/
-void Huffman::obtenerUltimoPuntero(){
-    Nodo* aux = inicioL;
-    while (aux->siguiente != nullptr){
-        aux = aux->siguiente;
+
+void Huffman::recorridoPreordenArbol(Nodo* nodo){
+    if (nodo == nullptr)
+    {
+        return;
     }
-    finalL = aux;
+    std::cout<<nodo->nRepeticiones<<" ("<<(int)nodo->byte<<") "<<" ";
+    recorridoPreordenArbol(nodo->siguienteIzquierdo);
+    recorridoPreordenArbol(nodo->siguienteDerecho);
 }
+*/
