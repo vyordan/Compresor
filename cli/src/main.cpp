@@ -11,14 +11,29 @@ void comprimir();
 void descomprimir();
 
 int main() {
-    std::vector<uint8_t> buffer(5);
-    
-    buffer[0] = 0x02;
-    buffer[1] = 0x0A;
-    buffer[2] = 0x05;
-    buffer[3] = 0x04;
-    buffer[4] = 0x0F;
+    std::vector<uint8_t> buffer;
 
+    // --- DATO 0x02: Muy frecuente (40 veces) ---
+    buffer.push_back(0x02); buffer.push_back(0x02); buffer.push_back(0x02); buffer.push_back(0x02); buffer.push_back(0x02);
+    buffer.push_back(0x02); buffer.push_back(0x02); buffer.push_back(0x02); buffer.push_back(0x02); buffer.push_back(0x02);
+
+    // --- DATO 0x0A: Frecuente (25 veces) ---
+    buffer.push_back(0x0A); buffer.push_back(0x0A); buffer.push_back(0x0A); buffer.push_back(0x0A); buffer.push_back(0x0A);
+
+    // --- DATO 0x05: Media frecuencia (20 veces) ---
+    buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05);
+    buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05);
+    buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05);
+    buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05); buffer.push_back(0x05);
+
+    // --- DATO 0x04: Poco frecuente (12 veces) ---
+    buffer.push_back(0x04); buffer.push_back(0x04); buffer.push_back(0x04); buffer.push_back(0x04); buffer.push_back(0x04);
+    buffer.push_back(0x04); buffer.push_back(0x04); buffer.push_back(0x04); buffer.push_back(0x04); buffer.push_back(0x04);
+    buffer.push_back(0x04); buffer.push_back(0x04);
+
+    // --- DATO 0x0F: Muy raro (3 veces) ---
+    buffer.push_back(0x0F); buffer.push_back(0x0F); buffer.push_back(0x0F);
+    
     Huffman h1;
     std::vector<uint8_t> xd = h1.compress(buffer);
     

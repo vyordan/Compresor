@@ -1,7 +1,6 @@
 #pragma once
 
-//#include <iostream>
-//#include <map>
+#include <iostream>
 #include "ICompressor.hpp"
 
 struct Nodo{
@@ -38,6 +37,8 @@ class Huffman: public ICompressor{
         void insertarNodoListaOrdenado(Nodo*& nuevoNodo);
         void convertirListaAArbol(int& tamanioLista);\
         void obtenerUltimoPuntero();
-        //void mostrar(); //mostrar la lista
-        //void recorridoPreordenArbol(Nodo* nodo);
+        void mostrar(); //mostrar la lista
+        void generarCodigos(Nodo* nodo, std::string claves[], std::string clave);
+
+        void liberarArbol(Nodo* &raiz);
 };

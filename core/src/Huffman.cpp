@@ -3,7 +3,7 @@
 std::vector<uint8_t> Huffman::compress (const std::vector<uint8_t>& buffer){
     std::vector<uint8_t> compressedBuffer; //sera el buffer final incluyendo el arbol binario
     int contadorTamanioLista = 0;
-
+    std::string claves[256] = {""};
     //cada posicion [n] es un token y en el espacio en memoria de esa posicion se va almacenar el la cantidad de veces que se repita ese token
     int contadorRepeticiones[256] = {0}; //el indice representa el token (osea el byte) y el dato que se guarda va ser las veces que se repita
     for (int i = 0; i < buffer.size(); i++){
@@ -18,15 +18,23 @@ std::vector<uint8_t> Huffman::compress (const std::vector<uint8_t>& buffer){
         }
     }
     
-    //mostrar();
+    mostrar();
     //pasar la lista al arbol
     if (contadorTamanioLista > 1)
     {
         convertirListaAArbol(contadorTamanioLista);
-        //recorridoPreordenArbol(inicioL);
-        //std::cout<<std::endl;
+        generarCodigos(inicioL, claves, "");
+    }
+    for (int i = 0; i < 256; i++)
+    {
+        if (claves[i] != "")
+        {
+            std::cout<<"token: "<<i<<"\tclave: "<<claves[i]<<std::endl;
+        }
+        
     }
     
+    liberarArbol(inicioL);
 
     return {};
 } 
@@ -60,11 +68,8 @@ void Huffman::insertarNodoListaOrdenado(int contadorR, uint8_t token){
     nodoActual->siguiente = nuevoNodo;
 }
 void Huffman::insertarNodoListaOrdenado(Nodo*& nuevoNodo){
-    //Nodo* nuevoNodo = new Nodo(token, contadorR);
-    int contadorR = nuevoNodo->nRepeticiones;
-
     //por si la lista esta vacia o si el nuevo valor es mas grande al del inicio 
-    if (inicioL == nullptr || contadorR >= inicioL->nRepeticiones){
+    if (inicioL == nullptr || nuevoNodo->nRepeticiones >= inicioL->nRepeticiones){
         nuevoNodo->siguiente = inicioL;
         if (inicioL != nullptr){
             inicioL->anterior = nuevoNodo;
@@ -76,7 +81,7 @@ void Huffman::insertarNodoListaOrdenado(Nodo*& nuevoNodo){
     //buscamos la posicion donde va ir el nodo
     Nodo* nodoActual = inicioL;
     //hacemos esa consulta tan adelantada para tener que usar otro nodo auxiliar que vaya guardando la pposicion anterior
-    while (nodoActual->siguiente != nullptr && nodoActual->siguiente->nRepeticiones > contadorR){
+    while (nodoActual->siguiente != nullptr && nodoActual->siguiente->nRepeticiones > nuevoNodo->nRepeticiones){
         nodoActual = nodoActual->siguiente;
     }
     //vamos a insertar despues del Nodo Actual que es nuestro nodo auxiliar para recorrer la lista
@@ -90,7 +95,7 @@ void Huffman::insertarNodoListaOrdenado(Nodo*& nuevoNodo){
 }
 void Huffman::convertirListaAArbol(int& tamanioLista){
     obtenerUltimoPuntero();
-    while (tamanioLista > 2){
+    while (tamanioLista > 2){ //estaba pensando en que esto lo puedo cambiar por un finaL -> anterior -> anterior != nullptr
         //creamos un nuevo nodo con la suma de los ultimos dos nodos de la lista
         Nodo* nuevo = new Nodo(0x00,(finalL->anterior->nRepeticiones + finalL->nRepeticiones));
         //el nuevo nodo va apuntar a sus dos hijos
@@ -98,7 +103,7 @@ void Huffman::convertirListaAArbol(int& tamanioLista){
         nuevo->siguienteIzquierdo = finalL->anterior;
 
         /* esto se vale, pero en no realidad solo necesito que finalL apunte al nodo que esta atras del penultimo, y este siguiente = nullptr ()
-        //desconectamos estos dos nodos de la listas
+        //desconectamos estos dos nodos de la listas y hacemos que todos sus punteros de la listan sean nulos
         finalL = finalL->anterior;
         finalL->siguiente->anterior = nullptr;
         finalL->siguiente = nullptr;
@@ -119,7 +124,6 @@ void Huffman::convertirListaAArbol(int& tamanioLista){
     nuevo->siguienteIzquierdo = finalL->anterior;
     inicioL = nuevo;
     finalL = nullptr;
-
 }
 void Huffman::obtenerUltimoPuntero(){
     Nodo* aux = inicioL;
@@ -128,7 +132,7 @@ void Huffman::obtenerUltimoPuntero(){
     }
     finalL = aux;
 } 
-/*//este codigo si sirve, pero lo hice nada mas para testiar la lista y ver que metiera bien los datos, por eso lo mente por que ya no le veo utilidad 
+//este codigo si sirve, pero lo hice nada mas para testiar la lista y ver que metiera bien los datos, por eso lo mente por que ya no le veo utilidad 
 void Huffman::mostrar() {
     Nodo* temp = inicioL;
     while (temp != nullptr) {
@@ -138,13 +142,42 @@ void Huffman::mostrar() {
     std::cout << "NULL" << std::endl;
 }
 
-void Huffman::recorridoPreordenArbol(Nodo* nodo){
+void Huffman::generarCodigos(Nodo* nodo, std::string claves[], std::string clave){
     if (nodo == nullptr)
     {
         return;
     }
-    std::cout<<nodo->nRepeticiones<<" ("<<(int)nodo->byte<<") "<<" ";
-    recorridoPreordenArbol(nodo->siguienteIzquierdo);
-    recorridoPreordenArbol(nodo->siguienteDerecho);
+    if ((nodo->siguienteIzquierdo == nullptr) && (nodo->siguienteDerecho == nullptr))
+    {   
+        //es una hoja entoces ya puedo terminal el proceso y ya esta el codigo metido en el string
+        claves[(int)nodo->byte] = clave;
+        //std::cout<<nodo->nRepeticiones<<" ("<<(int)nodo->byte<<") "<<" ";
+    }
+    if (nodo->siguienteIzquierdo != nullptr)
+    {
+        generarCodigos(nodo->siguienteIzquierdo, claves, clave + "0");
+    }
+    if (nodo->siguienteDerecho != nullptr)
+    {
+        generarCodigos(nodo->siguienteDerecho, claves, clave + "1");
+    }
 }
-*/
+
+
+
+
+
+
+void Huffman::liberarArbol(Nodo* &raiz) {
+    if (raiz == nullptr) return;
+
+    // Primero vamos a las hojas (recorrido post-orden)
+    liberarArbol(raiz->siguienteIzquierdo);
+    liberarArbol(raiz->siguienteDerecho);
+
+    // Una vez los hijos están libres, borramos el actual
+    delete raiz;
+    
+    // Buena práctica: poner a null para evitar punteros colgantes
+    raiz = nullptr;
+}
