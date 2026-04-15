@@ -25,6 +25,7 @@ std::vector<uint8_t> Huffman::compress (const std::vector<uint8_t>& buffer){
         convertirListaAArbol(contadorTamanioLista);
         generarCodigos(inicioL, claves, "");
     }
+    //esta impresion es de las tablas de claves
     for (int i = 0; i < 256; i++)
     {
         if (claves[i] != "")
@@ -34,8 +35,6 @@ std::vector<uint8_t> Huffman::compress (const std::vector<uint8_t>& buffer){
         
     }
     
-    liberarArbol(inicioL);
-
     return {};
 } 
 
@@ -95,35 +94,33 @@ void Huffman::insertarNodoListaOrdenado(Nodo*& nuevoNodo){
 }
 void Huffman::convertirListaAArbol(int& tamanioLista){
     obtenerUltimoPuntero();
-    while (tamanioLista > 2){ //estaba pensando en que esto lo puedo cambiar por un finaL -> anterior -> anterior != nullptr
-        //creamos un nuevo nodo con la suma de los ultimos dos nodos de la lista
-        Nodo* nuevo = new Nodo(0x00,(finalL->anterior->nRepeticiones + finalL->nRepeticiones));
-        //el nuevo nodo va apuntar a sus dos hijos
+        while (tamanioLista > 2){ //estaba pensando en que esto lo puedo cambiar por un finaL -> anterior -> anterior != nullptr
+            //creamos un nuevo nodo con la suma de los ultimos dos nodos de la lista
+            Nodo* nuevo = new Nodo(0x00,(finalL->anterior->nRepeticiones + finalL->nRepeticiones));
+            //el nuevo nodo va apuntar a sus dos hijos
+            nuevo->siguienteDerecho = finalL;
+            nuevo->siguienteIzquierdo = finalL->anterior;
+    
+            //desconecto los ultimos dos nodos de la lista 
+            finalL = finalL->anterior->anterior;
+            finalL->siguiente = nullptr;
+            insertarNodoListaOrdenado(nuevo);
+            tamanioLista--;
+
+            //parche xd
+            if (nuevo->nRepeticiones < finalL->nRepeticiones)
+            {
+                finalL = nuevo;
+            }
+        }
+
+
+        Nodo* nuevo = new Nodo(0x00,(finalL->anterior->nRepeticiones + finalL->nRepeticiones));    
         nuevo->siguienteDerecho = finalL;
-        nuevo->siguienteIzquierdo = finalL->anterior;
-
-        /* esto se vale, pero en no realidad solo necesito que finalL apunte al nodo que esta atras del penultimo, y este siguiente = nullptr ()
-        //desconectamos estos dos nodos de la listas y hacemos que todos sus punteros de la listan sean nulos
-        finalL = finalL->anterior;
-        finalL->siguiente->anterior = nullptr;
-        finalL->siguiente = nullptr;
-
-        finalL = finalL->anterior;
-        finalL->siguiente->anterior = nullptr;
-        finalL->siguiente = nullptr;
-        */
-        //desconecto los ultimos dos nodos de la lista 
-        finalL = finalL->anterior->anterior;
-        finalL->siguiente = nullptr;
-        
-        insertarNodoListaOrdenado(nuevo);
-        tamanioLista--;
-    }
-    Nodo* nuevo = new Nodo(0x00,(finalL->anterior->nRepeticiones + finalL->nRepeticiones));
-    nuevo->siguienteDerecho = finalL;
-    nuevo->siguienteIzquierdo = finalL->anterior;
-    inicioL = nuevo;
-    finalL = nullptr;
+        nuevo->siguienteIzquierdo = finalL->anterior;    
+        inicioL = nuevo;
+        finalL = nullptr;
+    
 }
 void Huffman::obtenerUltimoPuntero(){
     Nodo* aux = inicioL;
