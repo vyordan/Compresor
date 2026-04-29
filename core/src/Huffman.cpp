@@ -129,16 +129,6 @@ void Huffman::obtenerUltimoPuntero(){
     }
     finalL = aux;
 } 
-//este codigo si sirve, pero lo hice nada mas para testiar la lista y ver que metiera bien los datos, por eso lo mente por que ya no le veo utilidad 
-void Huffman::mostrar() {
-    Nodo* temp = inicioL;
-    while (temp != nullptr) {
-        std::cout << temp->nRepeticiones<<" ("<<(int)temp->byte<<") "<< " <-> ";
-        temp = temp->siguiente;
-    }
-    std::cout << "NULL" << std::endl;
-}
-
 void Huffman::generarCodigos(Nodo* nodo, std::string claves[], std::string clave){
     if (nodo == nullptr)
     {
@@ -159,6 +149,27 @@ void Huffman::generarCodigos(Nodo* nodo, std::string claves[], std::string clave
         generarCodigos(nodo->siguienteDerecho, claves, clave + "1");
     }
 }
+
+
+
+
+
+
+
+
+
+
+//este codigo si sirve, pero lo hice nada mas para testiar la lista y ver que metiera bien los datos, por eso lo mente por que ya no le veo utilidad 
+void Huffman::mostrar() {
+    Nodo* temp = inicioL;
+    while (temp != nullptr) {
+        std::cout << temp->nRepeticiones<<" ("<<(int)temp->byte<<") "<< " <-> ";
+        temp = temp->siguiente;
+    }
+    std::cout << "NULL" << std::endl;
+}
+
+
 
 
 

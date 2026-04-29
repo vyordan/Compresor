@@ -37,8 +37,8 @@ class Huffman: public ICompressor{
         void insertarNodoListaOrdenado(Nodo*& nuevoNodo);
         void convertirListaAArbol(int& tamanioLista);\
         void obtenerUltimoPuntero();
-        void mostrar(); //mostrar la lista
         void generarCodigos(Nodo* nodo, std::string claves[], std::string clave);
-
+        
+        void mostrar(); //mostrar la lista
         void liberarArbol(Nodo* &raiz);
 };

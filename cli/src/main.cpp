@@ -11,6 +11,7 @@ void comprimir();
 void descomprimir();
 
 int main() {
+    /* ESTE ES UN PEQUENIO TEST PARA HUFFMAN
     std::vector<uint8_t> buffer;
 
     // --- DATO 0x02: Muy frecuente (40 veces) ---
@@ -36,8 +37,8 @@ int main() {
 
     Huffman h1;
     std::vector<uint8_t> xd = h1.compress(buffer);
-    
-
+    */    
+    void menu();
 
     //menu();
     return (0);

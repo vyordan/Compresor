@@ -8,7 +8,7 @@ algoritmos agregados:
     LZ77 (pendiente)
     LZW (pendiente)
 
-Si queres compilar lo que llevo hasta el momento debes tener instalado CMake y un compilador en mi caso tengo GCC y cmake lo reconoce de manera automatica, (tambien tene en cuenta que lo desarrolle en linux, lo mensiono por el tema de las rutas que estan escritas con "/"),luego seguir los siguientes pasos:
+Si queres compilar lo que llevo hasta el momento debes tener instalado CMake y un compilador en mi caso tengo GCC y cmake lo reconoce de manera automatica, seguir los siguientes pasos:
 
 ```bash
 cd ~/Compresor    #(vas a la carpeta del proyecto)
