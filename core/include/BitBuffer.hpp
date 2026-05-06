@@ -14,7 +14,7 @@ class BitBuffer
         BitBuffer() : bitPosition(0), totalBits(0) {}
         ~BitBuffer(){};
 
-        void writeBit(uint8_t bit); //escribir un bit
-        void writeBitsFromString(const std::string& bits); //escribir desde un string
+        void escribirBit(uint8_t bit); //escribir un bit
+        void escribirDesdeString(const std::string& bits); //escribir desde un string
         std::vector<uint8_t> getBuffer() const;
 };

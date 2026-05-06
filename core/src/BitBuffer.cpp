@@ -1,6 +1,6 @@
 #include "BitBuffer.hpp"
 
-void BitBuffer::writeBit(uint8_t bit) {
+void BitBuffer::escribirBit(uint8_t bit) {
     if (bit > 1) throw std::invalid_argument("Bit debe ser 0 o 1");
         
     if (bitPosition == 0) {
@@ -18,9 +18,10 @@ void BitBuffer::writeBit(uint8_t bit) {
         bitPosition = 0;
     }
 }
-void BitBuffer::writeBitsFromString(const std::string& bits) {
+
+void BitBuffer::escribirDesdeString(const std::string& bits) {
     for (char c : bits) {
-        writeBit(c == '1' ? 1 : 0);
+        escribirBit(c == '1' ? 1 : 0);
     }
 }
 
