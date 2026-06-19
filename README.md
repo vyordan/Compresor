@@ -1,9 +1,9 @@
 # Compresor
+
 EN DESARROLLO, este proyecto es un ejercicio y reto tecnico, por eso mismo no se utilizo tutoriales ni IA para generar codigo.
----
+
 Este es un compreso echo en c++ desde cero.
-Proyecto Personal.
-algoritmos agregados: 
+algoritmos: 
 * RLE basico (terminado)
 * Huffman (en proceso, para su implementacion solo uso este video como referencia: https://youtu.be/0eh1mLqge_s) 
 * LZ77 (pendiente)
