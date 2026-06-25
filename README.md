@@ -1,16 +1,29 @@
-# Compresor
+# Compresor (Compression Tool)
 
-EN DESARROLLO, este proyecto es un ejercicio y reto tecnico, por eso mismo no se utilizo tutoriales ni IA para generar codigo.
+**Status:** In active development – This is a personal challenge and technical exercise, built without tutorials or AI-generated code.
 
-Este es un compreso echo en c++ desde cero.
-algoritmos: 
-* RLE basico (terminado)
-* Huffman (en proceso, para su implementacion solo uso este video como referencia: https://youtu.be/0eh1mLqge_s) 
-* LZ77 (pendiente)
-* LZW (pendiente)
+A custom compression tool written from scratch in C++. Implements multiple algorithms in a modular core, with CLI/GUI/gRPC interfaces.
 
-## Arbol de archivos
-al terminar el proyecto tendre esta estructura, estoy usando una arquitectura modular para separar responsabilidades. Al compilar el compresor osea el codigo que esta dentro de la carpeta core se compila como una libreria, al core solo le llega un buffer de bytes (vector<uint8_t>) y regresa otro buffer, de esta manera no le importa de donde vengan los datos a comprimir, la carpeta cli tiene la interfaz por consola, la gui pues una interfaz grafica, y **gracias a la desicion de desacoplar el core nos permite que el compresor se comporte como un microservicio** asi que la carpeta grpc va tener la configuracion del servidor y el contrato proto, por el momento no tengo estos conocimientos pero voy a provechar este proyecto para adquirirlos he implementarlos aqui.
+## Supported Algorithms
+- **Run-Length Encoding (RLE)** – Basic implementation (completed).
+- **Huffman Coding** – In progress (reference: [this video](https://youtu.be/0eh1mLqge_s) for conceptual understanding).
+- **LZ77** – Planned.
+- **LZW** – Planned.
+
+## Project Architecture
+
+The code is organized into four modules, enforcing a strong separation of concerns:
+
+| Module | Purpose |
+|--------|---------|
+| `core` | Compression algorithms library – Takes a raw byte buffer (`vector<uint8_t>`) and returns a compressed buffer. No knowledge of data source or destination. |
+| `cli`  | Command-line interface for the compressor. |
+| `gui`  | (Future) Graphical interface. |
+| `grpc` | (Future) gRPC server – Exposes the core as a microservice using Protocol Buffers. |
+
+This decoupled design means the core can be reused in any context (local CLI, remote microservice, embedded system) without modification.
+
+### Planned File Tree
 ```
 compresor/
 │
@@ -58,18 +71,25 @@ compresor/
         └── server.cpp
 ```
 
-## Compilacion
 
-Si queres compilar lo que llevo hasta el momento debes tener instalado CMake y un compilador en mi caso tengo GCC y cmake lo reconoce de manera automatica, seguir los siguientes pasos:
+## Build Instructions (Current State)
+
+**Requirements:** CMake, a C++ compiler (tested with GCC on Linux).
 
 ```bash
-cd ~/Compresor    #(vas a la carpeta del proyecto)
-mkdir -p build          #(aqui creas la carpeta build)
-cd build                #(entras a la carpeta build que es la que acabas de crear)
-cmake ..                #(preparas la compilacion)
-make                    #(compilas)
+cd Compresor
+mkdir -p build
+cd build
+cmake ..
+make
 
-#en build/cli se genera un archivo llamado Compresor de tipo ejecutable si lo ejecutas (/.Compresor) por el 
-#momento es un pequenio test, pero mas adelante sera el ejecutable donde por medio de la terminal se mostrar un menu
-#y vas a poder pasar tus archivos para comprimirlos
+#The executable Compresor will be placed in build/cli/. For now it runs a small internal test; a full CLI menu with  file input/output is under development.
 ```
+## Motivation & Learning Goals
+- Implement classic compression algorithms from scratch, deepening my understanding of data structures, bit-level operations, and algorithm design.
+
+- Practice modular C++ architecture and clean API design (ICompressor interface, library separation).
+
+- Explore modern system communication by adding a gRPC microservice layer.
+
+- Prove self-directed learning: no AI-generated code, minimal reliance on tutorials – only conceptual references.
